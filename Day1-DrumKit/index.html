@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Day1-DrumKit</title>
+</head>
+<style>
+    html {
+        height: 100%;
+    }
+
+    body {
+        height: 100%;
+        background: #fe5922;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    p {
+        margin: 15px 0;
+        color: #f1d07d;
+    }
+
+    .note {
+        margin-top: 30px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .instruments {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .key {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 65px;
+        height: 65px;
+        padding: 8px;
+        border: 2px solid #ff9741;
+        outline: none;
+        background: transparent;
+        cursor: pointer;
+    }
+
+    .key:focus {
+        background: rgba(0, 0, 0, 0.03);
+    }
+
+    .key kbd {
+        color: #fff;
+        font-size: 1.8em;
+    }
+
+    .playing {
+        transform: scale(1.1);
+        border-color: #ffc600;
+        box-shadow: 0 0 1rem #ffc600;
+        transition: all 0.07s;
+    }
+
+</style>
+<body>
+<div class="instruments"></div>
+
+<div class="note">
+    <p>Simplify data source with minimum infomation.</p>
+    <p>Automatically generate keyboards.</p>
+    <p>States are well maintained, no unnecessary qureying.</p>
+    <p>Keyboards are also clickable.</p>
+</div>
+<script>
+  const source = {
+    a: 'clap',
+    s: 'hihat',
+    d: 'kick',
+    f: 'openhat',
+    g: 'boom',
+    h: 'ride',
+    j: 'snare',
+    k: 'tom',
+    l: 'tink',
+  }
+
+  const instruments = document.querySelector('.instruments')
+
+  const data = Object.keys(source).reduce((data, key) => {
+    const btn = document.createElement('button')
+    btn.className = 'key'
+    btn.innerHTML = `
+      <kbd${ key.toUpperCase() }</kbd>
+      <div>${ source[key] }</div>
+      `
+    btn.addEventListener('transitionend', () => {
+      btn.classList.remove('playing')
+    })
+    btn.addEventListener('click', () => play({
+      key
+    }))
+
+    data[key] = {
+      el: instruments.appendChild(btn),
+      audio: new Audio(`https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/${ source[key] }.wav`),
+    }
+    return data
+  }, {})
+
+  window.addEventListener('keydown', play)
+
+  function play({
+                  key
+                }) {
+    data[key].el.classList.add('playing')
+    data[key].audio.currentTime = 0
+    data[key].audio.play()
+  }
+
+</script>
+</body>
+</html>

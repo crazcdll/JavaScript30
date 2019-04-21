@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Day3-Kaleidoscope</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            background: #0a181b;
+        }
+
+        .kaleidoscope {
+            --position: 0px;
+            --radius: 40vmin;
+            position: relative;
+            width: calc(var(--radius) * 2);
+            height: calc(var(--radius) * 2);
+            background: black;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .wrap {
+            position: absolute;
+            bottom: var(--radius);
+            left: var(--radius);
+            -webkit-transform: rotate(30deg);
+            -moz-transform: rotate(30deg);
+            -ms-transform: rotate(30deg);
+            -o-transform: rotate(30deg);
+            transform: rotate(30deg);
+            -webkit-transform-origin: bottom left;
+            -moz-transform-origin: bottom left;
+            -ms-transform-origin: bottom left;
+            -o-transform-origin: bottom left;
+            transform-origin: bottom left;
+        }
+
+        .triangle {
+            width: calc(var(--radius) * 2);
+            height: calc(var(--radius) * 2);
+            background: #000;
+            -webkit-transform-origin: bottom left;
+            -moz-transform-origin: bottom left;
+            -ms-transform-origin: bottom left;
+            -o-transform-origin: bottom left;
+            transform-origin: bottom left;
+            -webkit-transform: rotate(45deg) skew(-30deg, -30deg);
+            -moz-transform: rotate(45deg) skew(-30deg, -30deg);
+            -ms-transform: rotate(45deg) skew(-30deg, -30deg);
+            -o-transform: rotate(45deg) skew(-30deg, -30deg);
+            transform: rotate(45deg) skew(-30deg, -30deg);
+            outline: 1px solid transparent;
+        }
+
+        .image {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: var(--radius);
+            height: var(--radius);
+            background-image: url('https://images.pexels.com/photos/808533/pexels-photo-808533.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb');
+            background-position: var(--position);
+            -webkit-transform: translate(0, 0);
+            -moz-transform: translate(0, 0);
+            -ms-transform: translate(0, 0);
+            -o-transform: translate(0, 0);
+            transform: translate(0, 0);
+            will-change: background-position;
+        }
+    </style>
+</head>
+<body>
+<div class="kaleidoscope">
+    <div class="wrap" style="transform: rotate(0deg)">
+        <div class="triangle">
+            <div class="image"></div>
+        </div>
+    </div>
+    <div class="wrap" style="transform: rotate(30deg)">
+        <div class="triangle">
+            <div class="image"></div>
+        </div>
+    </div>
+    <div class="wrap" style="transform: rotate(60deg)">
+        <div class="triangle">
+            <div class="image"></div>
+        </div>
+    </div>
+    <div class="wrap" style="transform: rotate(90deg)">
+        <div class="triangle">
+            <div class="image"></div>
+        </div>
+    </div>
+    <div class="wrap" style="transform: rotate(120deg)">
+        <div class="triangle">
+            <div class="image"></div>
+        </div>
+    </div>
+    <div class="wrap" style="transform: rotate(150deg)">
+        <div class="triangle">
+            <div class="image"></div>
+        </div>
+    </div>
+    <div class="wrap" style="transform: rotate(180deg)">
+        <div class="triangle">
+            <div class="image"></div>
+        </div>
+    </div>
+    <div class="wrap" style="transform: rotate(210deg)">
+        <div class="triangle">
+            <div class="image"></div>
+        </div>
+    </div>
+    <div class="wrap" style="transform: rotate(240deg)">
+        <div class="triangle">
+            <div class="image"></div>
+        </div>
+    </div>
+    <div class="wrap" style="transform: rotate(270deg)">
+        <div class="triangle">
+            <div class="image"></div>
+        </div>
+    </div>
+    <div class="wrap" style="transform: rotate(300deg)">
+        <div class="triangle">
+            <div class="image"></div>
+        </div>
+    </div>
+    <div class="wrap" style="transform: rotate(330deg)">
+        <div class="triangle">
+            <div class="image"></div>
+        </div>
+    </div>
+</div>
+<script>
+  const kaleidoscope = document.querySelector('.kaleidoscope')
+
+  document.addEventListener('mousemove', ({ clientX, clientY }) => {
+    kaleidoscope.style.setProperty(
+      '--position',
+      `${ clientX / window.innerWidth * 300 }px ${ clientY / window.innerHeight * 300 }px`
+    )
+  })
+
+  window.addEventListener('deviceorientation', ({ beta, gama }) => {
+    kaleidoscope.style.setProperty(
+      '--position',
+      `${ beta / 180 * 500 }px ${ gama / 180 * 500 }px`
+    )
+  }, { passive: false })
+</script>
+</body>
+</html>

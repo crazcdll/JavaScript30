@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Day4-Queue*2=Stack</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      background: #573F52;
+    }
+
+    .desc {
+      color: #F4F7F5;
+      margin-bottom: 6vh;
+    }
+
+    .queues {
+      position: relative;
+      width: 100%;
+      height: 30vh;
+      margin-bottom: 10vh;
+    }
+
+    .btn {
+      font-size: 1.1em;
+      margin: 0 5px;
+    }
+
+    .stack-result {
+      display: flex;
+      width: 100%;
+      height: 30vh;
+    }
+
+    .queue {
+      display: flex;
+      flex-direction: row-reverse;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 30vw;
+      height: 30vh;
+      border-top: 5px #000 solid;
+      border-bottom: 5px #000 solid;
+      transition: transform 0.4s;
+    }
+
+    .queue1 {
+      border-color: #D86137;
+      transform: translate3d(15vw, 0, 0);
+    }
+
+    .queue2 {
+      border-color: #3FAB9B;
+      transform: translate3d(55vw, 0, 0);
+    }
+
+    .item {
+      width: 5vw;
+      height: 30vh;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 30vh;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+<p class="desc">A Virtual Stack Made of Two Queues</p>
+
+<div class="btn-group">
+  <button class="btn push">Push</button>
+  <button class="btn pop">Pop</button>
+</div>
+
+<div class="queues">
+  <div class="queue queue1"></div>
+  <div class="queue queue2"></div>
+</div>
+
+<div class="stack-result"></div>
+
+<script>
+  const colors = ['#394c82', '#4f3a2b', '#8e725e', '#2c4f34', '#7e8b8c', '#26ad5e', '#8eaf21', '#8d43ad', '#662520', '#16a085', '#d35400', '#d35b9d', '#4f2a4f', '#5b47a3', '#bf382a', '#2880ba', '#346272', '#d85458', '#ffaa00']
+  let iColor = 0
+
+  let iItem = 1
+  let isPoping = false
+  const queues = [
+    document.querySelector('.queue1'),
+    document.querySelector('.queue2')
+  ]
+  const push = document.querySelector('.push')
+  const pop = document.querySelector('.pop')
+  const stackResult = document.querySelector('.stack-result')
+
+  push.addEventListener('click', pushItem)
+  pop.addEventListener('click', popItem)
+
+  function pushItem() {
+    const item = document.createElement('div')
+    item.className = 'item'
+    item.style.backgroundColor = colors[(iColor++) % colors.length]
+    item.textContent = `${ iItem++ }`
+
+    queues[0].appendChild(item)
+
+    if (queues[0].children.length >= 6) {
+      push.disabled = true
+    }
+  }
+
+  async function popItem() {
+    if (queues[0].children.length <= 0 || isPoping) {
+      return
+    }
+    isPoping = true
+    while (queues[0].children.length > 1) {
+      //  queue1 dequeue
+      await delay(() => {
+        const item = queues[0].firstElementChild
+        item.remove()
+        queues[1].appendChild(item)
+      })
+    }
+    //  stack pop result
+    await delay(() => {
+      const item = queues[0].firstElementChild
+      item.remove()
+      stackResult.appendChild(item)
+    })
+    //  switch queue
+    await delay(() => {
+      queues[0].style.transform = 'translate3d(55vw, 0, 0)'
+      queues[1].style.transform = 'translate3d(15vw, 0, 0)'
+      // let t = queues[0]
+      // queues[0] = queues[1]
+      // queues[1] = t
+      ;[queues[0], queues[1]] = [queues[1], queues[0]]
+    })
+    isPoping = false
+    push.disabled = false
+  }
+
+  function delay(fn) {
+    return new Promise(r => {
+      setTimeout(() => {
+        fn()
+        r()
+      }, 800)
+    })
+
+  }
+</script>
+</body>
+</html>

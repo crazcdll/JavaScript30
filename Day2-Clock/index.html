@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Day2-Clock</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            background: #2E1F27;
+        }
+
+        p {
+            color: #854D27;
+        }
+
+        code {
+            color: #F4C95D;;
+        }
+
+        .clock {
+            --clock-width: 30vmin;
+            overflow: hidden;
+            position: relative;
+            width: var(--clock-width);
+            height: var(--clock-width);
+            border: 8px solid #F4C95D;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+
+        .clock:after {
+            content: '';
+            position: absolute;
+            z-index: 10;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            width: 6px;;
+            height: 6px;
+            background: #D0B8AC;
+            border-radius: 50%;
+        }
+
+        .hand {
+            --hand-width: 4px;
+            --hand-length: calc(var(--clock-width) / 2 - 6px);
+            position: absolute;
+            bottom: calc(var(--clock-width) / 2);
+            left: calc((var(--clock-width) - var(--hand-width)) / 2);
+            width: var(--hand-width);
+            height: var(--hand-length);
+            background: #D0B8AC;
+            transform-origin: center bottom;
+        }
+
+        .hour-hand {
+            height: 10vmin;
+        }
+
+        .second-hand {
+            --hand-width: 2px;
+            width: var(--hand-width);
+            left: calc((var(--clock-width) - var(--hand-width)) / 2);
+        }
+    </style>
+</head>
+<body>
+<div class="clock">
+    <div class="hand hour-hand"></div>
+    <div class="hand minute-hand"></div>
+    <div class="hand second-hand"></div>
+</div>
+<script>
+  const hourHand = document.querySelector('.hour-hand')
+  const minuteHand = document.querySelector('.minute-hand')
+  const secondHand = document.querySelector('.second-hand')
+
+  tick()
+  setInterval(tick, 1000)
+
+  function tick() {
+    const date = new Date()
+    hourHand.style.transform = `rotate(${ date.getHours() / 12 * 360 }deg)`
+    minuteHand.style.transform = `rotate(${ date.getMinutes() / 60 * 360 }deg)`
+    secondHand.style.transform = `rotate(${ date.getSeconds() / 60 * 360 }deg)`
+  }
+
+</script>
+</body>
+</html>
